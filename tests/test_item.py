@@ -1,6 +1,6 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
 import pytest
-from src.item import Item
+from src.item import *
 
 
 @pytest.fixture
@@ -32,3 +32,14 @@ def test_apply_discount(start_data):
     start_data.apply_discount()
     assert start_data.price == 999.9
 
+def test_instantiate_from_csv_not_found():
+    with pytest.raises(FileNotFoundError):
+        Item.instantiate_from_csv(path=('wrong.csv'))
+
+def test_instantiate_from_csv_error_file():
+    with pytest.raises(InstantiateCSVFile):
+        Item.instantiate_from_csv(path=('../src/error.csv'))
+
+def test_InstantiateCSVFile():
+    csvfile = InstantiateCSVFile()
+    assert str(csvfile) == 'Файл item.csv поврежден'
